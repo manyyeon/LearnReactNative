@@ -6,7 +6,8 @@ import { SafeAreaView, View, Text } from "react-native";
 const App = () => {
   return (
     <SafeAreaView style={styles.full}>
-      <Text>TodoApp</Text>
+      <Text>Todo App</Text>
+      <Text>Hello</Text>
     </SafeAreaView>
   );
 };
