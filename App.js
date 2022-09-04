@@ -13,7 +13,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import AddTodo from './components/AddTodo';
 import Empty from './components/Empty';
 import TodoList from './components/TodoList';
-import AsyncStorage from '@react-native-community/async-storage';
+import todosStorage from './storages/todoStorage';
 
 const App = () => {
   const today = new Date();
@@ -36,27 +36,11 @@ const App = () => {
   ]);
 
   useEffect(() => {
-    async function load() {
-      try {
-        const rawTodos = await AsyncStorage.getItem('todos');
-        const savedTodos = JSON.parse(rawTodos);
-        setTodos(savedTodos);
-      } catch (e) {
-        console.log('Failed to load todos');
-      }
-    }
-    load();
+    todosStorage.get().then(setTodos).catch(console.error);
   }, []);
 
   useEffect(() => {
-    async function save() {
-      try {
-        await AsyncStorage.setItem('todos', JSON.stringify(todos));
-      } catch (e) {
-        console.log('Failed to save todos');
-      }
-    }
-    save();
+    todosStorage.set(todos).catch(console.error);
   }, [todos]);
 
   const onInsert = (text) => {
